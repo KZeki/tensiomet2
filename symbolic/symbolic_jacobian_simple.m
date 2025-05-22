@@ -4,17 +4,21 @@ syms sigma rho g V
 
 syms r z psi C P psi_prime r_prime  z_prime C_prime P_prime
 syms dr dz dpsi dC dP dpsi_prime dr_prime dz_prime dC_prime dP_prime
-syms kappap kappas int p_r a  b
+syms kappap kappas int p_r a b pmin pmax
 
 % NOTE: the prime denotes derivatives on the numerical reference grid
 %       (thus with respect to s0)
 
 kappap = sin(psi)/r;
 kappas = psi_prime;
-p_r = a*exp(-r^2/(2*b^2));
+
+p_exp = a*exp(-r^2/(2*b^2));
+p_sigmoid = pmin + (pmax-pmin)./(1+exp(a-b*r));
+p_pendant = 0;
 
 f{1} = C*r_prime - cos(psi);
 f{2} = C*z_prime - sin(psi);
+p_r = p_sigmoid;
 f{3} = -P+rho*g*z+sigma*(C*kappas+kappap)+p_r;
 
 f{5} = int*(2*pi*r*z*cos(psi)) - C*V;

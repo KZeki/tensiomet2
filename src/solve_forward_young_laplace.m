@@ -40,7 +40,7 @@ function [vars_sol, vars_num] = ...
     
         % build the Jacobian and RHS
         [A,b] = jacobian_rhs_simple(params_phys,vars_sol,vars_num);
-        
+
         % solve the system of equations
         u = A\b;
         
