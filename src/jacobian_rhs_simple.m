@@ -84,14 +84,14 @@ function [A, b] = puff_sigmoid(params_phys, vars_sol, vars_num)
 
     % determine psi from Laplace law
     A31 = - (sigma*sin(psi))./r.^2 ...
-          +diag((b*exp(a - b*r)*(pmax - pmin))./(exp(a - b*r) + 1).^2 );
+          -diag((b*exp(a - b*r)*(pmax - pmin))./(exp(a - b*r) + 1).^2 );
     A32 = g*rho*diag(ones(N,1));
     A33 = C*sigma*D + sigma*diag(cos(psi))./r;
     A34 = sigma*(D*psi);
     A35 = -ones(N,1);
     b3 = p0 - g*rho*z ...
         - sigma*(C*D*psi + sin(psi)./r) ...
-        -(- pmin - (pmax - pmin)./(exp(a - b*r) + 1));
+        + pmin + (pmax - pmin)./(exp(a - b*r) + 1);
 
     % impose the needle radius as a BC (imposes the domain length)
     A41 = fliplr(IDL);

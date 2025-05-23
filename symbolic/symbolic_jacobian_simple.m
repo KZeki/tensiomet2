@@ -13,7 +13,7 @@ kappap = sin(psi)/r;
 kappas = psi_prime;
 
 p_exp = a*exp(-r^2/(2*b^2));
-p_sigmoid = pmin + (pmax-pmin)./(1+exp(a-b*r));
+p_sigmoid = -(pmin + (pmax-pmin)./(1+exp(a-b*r)));
 p_pendant = 0;
 
 f{1} = C*r_prime - cos(psi);
