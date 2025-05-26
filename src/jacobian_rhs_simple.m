@@ -3,7 +3,7 @@ function [A, b] = jacobian_rhs_simple(params_phys, vars_sol, vars_num,rhs_versio
     % simple shape problem.
     %
     % INPUTS:
-    %   params_phys - Structure with physical parametersh
+    %   params_phys - Structure with physical parameters
     %   vars_sol    - Structure with solution variables
     %   vars_num    - Structure with numerical variables
     %   rhs_version - String that selects which rhs solver to use 
