@@ -37,13 +37,14 @@ function [A, b] = puff_sigmoid(params_phys, vars_sol, vars_num)
     % simple shape problem.
     %
     % INPUTS:
-    %   params_phys - Structure with physical parametersh
+    %   params_phys - Structure with physical parameters
     %   vars_sol    - Structure with solution variables
     %   vars_num    - Structure with numerical variables
     %
     % OUTPUTS:
     %   A - Jacobian matrix for the simple shape system
     %   b - Right-hand side vector for the simple shape system
+    
     D = vars_num.D0;
     w = vars_num.w0;
     N = vars_num.N;
@@ -53,7 +54,7 @@ function [A, b] = puff_sigmoid(params_phys, vars_sol, vars_num)
     psi = vars_sol.psi;
     C = vars_sol.C;
     p0 = vars_sol.p0;
-    
+
     g = params_phys.grav;
     sigma = params_phys.sigma;
     rho = params_phys.deltarho;
@@ -81,18 +82,18 @@ function [A, b] = puff_sigmoid(params_phys, vars_sol, vars_num)
     A23 = diag(-cos(psi)); 
     A24 = D*z; 
     b2 = -(C*D*z-sin(psi));
-
+    
     % determine psi from Laplace law
-    A31 = - (sigma*sin(psi))./r.^2 ...
-          -diag((b*exp(a - b*r)*(pmax - pmin))./(exp(a - b*r) + 1).^2 );
+    A31 = -diag(sigma*sin(psi)./r.^2) ...
+          - diag((b*exp(a - b*r)*(pmax - pmin))./(exp(a - b*r) + 1).^2);
     A32 = g*rho*diag(ones(N,1));
-    A33 = C*sigma*D + sigma*diag(cos(psi))./r;
+    A33 = C*sigma*D + sigma*diag(cos(psi)./r);
     A34 = sigma*(D*psi);
     A35 = -ones(N,1);
     b3 = p0 - g*rho*z ...
         - sigma*(C*D*psi + sin(psi)./r) ...
         + pmin + (pmax - pmin)./(exp(a - b*r) + 1);
-
+    
     % impose the needle radius as a BC (imposes the domain length)
     A41 = fliplr(IDL);
     b4 = (params_phys.rneedle-r(end));
@@ -136,7 +137,7 @@ function [A, b] = puff_sigmoid(params_phys, vars_sol, vars_num)
     
     % assemble matrices
     Z1 = zeros(N,1);
-
+     
     A = [[A11,   Z, A13, A14,  Z1];
        [  Z, A22, A23, A24,  Z1];
        [A31, A32, A33, A34, A35];
